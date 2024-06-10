@@ -30,7 +30,7 @@ export const signup = async(req, res) => {
         const newUser = await User.create({
             fullname,
             username,
-            password: hashedPassword,
+            password,
             gender,
             profilePic: gender === "male"? boyProfilePic : girlProfilePic
         })
