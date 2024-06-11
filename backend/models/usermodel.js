@@ -23,9 +23,12 @@ const userSchema = new mongoose.Schema({
     profilePicture:{
         type:String,
         default:"",
-    }
-});
+    },
 
+    //createdAt,updatedAt =>Member since <createdAt>
+},{timestamps: true});
+
+//we have schema now we will create the model
 const User = mongoose.model("User",userSchema);
 
 export default User;
