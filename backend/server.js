@@ -2,6 +2,7 @@ import express from "express";
 import { config } from "dotenv";
 import authRoutes from "./routes/authroutes.js"
 import messageRoutes from "./routes/messageroutes.js"
+import userRoutes from "./routes/userRoutes.js"
 import connectToMongoDB from "./db/connectToMongoDB.js";
 import cookieParser from "cookie-parser";
 
@@ -15,6 +16,7 @@ app.use(cookieParser()); // call the middleware to access the cookies
 
 app.use("/api/auth",authRoutes)
 app.use("/api/messages",messageRoutes)
+app.use("/api/users",userRoutes)
 
 // app.get("/",(req,res)=>{
 //     // root route https://localhost:5000/
