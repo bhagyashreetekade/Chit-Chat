@@ -5,7 +5,7 @@ import generateTokenAndSetCookie from "../utils/generateToken.js";
 export const signup = async(req, res) => {
 
     try {
-        const {fullname,username,password,confirmPassword,gender}= req.body;
+        const {fullName,username,password,confirmPassword,gender}= req.body;
         
         if(password !== confirmPassword) {
             return res.status(400).json({msg:"Passwords do not match"})
@@ -28,11 +28,11 @@ export const signup = async(req, res) => {
         const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`
 
         const newUser = await User.create({
-            fullname,
+            fullName,
             username,
             password: hashedPassword,
             gender,
-            profilePic: gender === "male"? boyProfilePic : girlProfilePic
+            profilePicture: gender === "male"? boyProfilePic : girlProfilePic
         })
 
         //save the new user in db
@@ -40,13 +40,15 @@ export const signup = async(req, res) => {
         if(newUser){
 
             //Generate jwt token
-            await generateTokenAndSetCookie(newUser._id,res);
+            generateTokenAndSetCookie(newUser._id,res);
+            await newUser.save();
+
             res.status(201).json({
                 _id: newUser._id,
-                fullname:newUser.fullname,
+                fullName:newUser.fullName,
                 username: newUser.username,
                 gender:newUser.gender,
-                profilePic:newUser.profilePic
+                profilePicture:newUser.profilePicture
             })
         }
         else{
@@ -76,7 +78,7 @@ export const login = async(req, res) => {
 
         res.status(200).json({
             _id: user._id,
-            fullname:user.fullname,
+            fullName:user.fullName,
             username: user.username,
             profilePic:user.profilePic,
         })
