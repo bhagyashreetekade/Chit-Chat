@@ -56,7 +56,7 @@ export const getMessages = async (req, res) => {
         }).populate("messages");  //populate to get messages not reference
 
         if(!conversation){
-            res.status(200).json([]);
+            return res.status(200).json([]);
         }
 
         const messages = conversation.messages
@@ -67,3 +67,4 @@ export const getMessages = async (req, res) => {
         res.status(500).json({error:"Internal sever error"})
     }
 }
+
