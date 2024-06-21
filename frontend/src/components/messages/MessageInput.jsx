@@ -13,6 +13,7 @@ const MessageInput = () => {
     await sendMessage(message);
     setMessage("");
   }
+  
   return (
     <form className='px-4 my-3' onSubmit={handleSubmit}>
 
