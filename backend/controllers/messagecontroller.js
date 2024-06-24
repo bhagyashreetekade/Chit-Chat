@@ -1,6 +1,7 @@
 import { response } from "express";
 import Conversation from "../models/conversionmodel.js";
 import Message from "../models/messagemodel.js";
+import { getReceiverSocketId,io } from "../socket/socket.js";
 
 export const sendMessage = async (req,res)=>{
     try {
@@ -29,14 +30,22 @@ export const sendMessage = async (req,res)=>{
             conversation.messages.push(newMessage._id);
         }
 
-        //SOCKET IO FUNCTIONALITY WILL GO HERE
-
         //saving the changes in db
         // await conversation.save();
         // await newMessage.save();
 
         //this will run in parallel ,this will run in minimum interval
         await Promise.all([conversation.save(),newMessage.save()]);
+
+        //SOCKET IO FUNCTIONALITY WILL GO HERE
+        const receiverSocketId = getReceiverSocketId(receiverId);
+
+        //if receiverSocketId is not undefined then check it is online
+        if(receiverSocketId){
+
+            //io.to<socket_id>.emit() used to send events to specific client
+            io.to(receiverSocketId).emit("newMessage",newMessage);
+        }
 
         res.status(201).json(newMessage);
 
