@@ -5,12 +5,13 @@ import express from 'express';
 const app = express();
 
 const server = http.createServer(app);
-const io = new Server(server,{
-    cors:{
-        origin:[ 'https://chit-chat-gvws.vercel.app'],
-        methods:['GET','POST']
+const io = new Server(server, {
+    cors: {
+        origin: "*", // Allow all origins
+        methods: ['GET', 'POST'] // Allowed HTTP methods
     }
-})
+});
+
 
 
 export const getReceiverSocketId = (receiverId) => {
